@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="">
+        <a href="{{ path('data_page') }}" class="button button-3d button-primary button-rounded" id="buttonMain">查看实时数据表格</a>
+        <br>
+        <a href="{{ path('email_page') }}" style="display: none" class="button button-3d button-primary button-rounded" id="buttonMain">邮件提醒页</a>
+    </div>
+{% endblock %}

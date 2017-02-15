@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ asset('bundles/app/css/lottery.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/app/css/button.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+        {% endblock %}
+    </body>
+</html>

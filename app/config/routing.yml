@@ -1,0 +1,22 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+data_page:
+    path:     /data
+    defaults: { _controller: AppBundle:Client:data }
+
+email_page:
+    path:     /email
+    defaults: { _controller: AppBundle:Client:email }
+
+send_emails:
+    path:     /send_emails
+    defaults: { _controller: AppBundle:Client:sendEmails }

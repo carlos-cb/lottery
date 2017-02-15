@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="hidden">
+        {% for message in messages %}
+            <div id="match_{{ loop.index }}" class="matchText">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="router" data-path="{{ path('send_emails') }}"></div>
+    <div class="normal">
+        {% for message in messages %}
+            <div id="match_{{ loop.index }}" class="matchDiv">
+                <table class="table">
+                    <caption>
+                        <a id="url" href="http://vip.win007.com/AsianOdds_n.aspx?id={{ matchIds[loop.index0] }}" target="_blank">
+                            <h2 id="teamname"></h2>
+                        </a>
+                        <h4 id="startTime">{{ startTimes[loop.index0] }}</h4>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th>澳门</th>
+                        <th>SB</th>
+                        <th>10Bet</th>
+                        <th>金宝博</th>
+                        <th>利记</th>
+                        <th>Bet365</th>
+                        <th>立博</th>
+                        <th>韦德</th>
+                        <th>易胜</th>
+                        <th>12Bet</th>
+                        <th>明陞</th>
+                        <th>盈禾</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="cz">
+                        {% for i in 0..11 %}
+                            <td>CZ&nbsp;
+                                <span id="times">0</span>次<br>
+                                <span id="lastInfo"></span><br>
+                                <span id="time"></span><br>
+                                <span id="shangpan"></span>&nbsp;
+                                <span id="xiapan"></span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="ml">
+                        {% for i in 0..11 %}
+                            <td>ML<br>
+                                <span id="lastInfo_1"></span><br>
+                                <span id="time_1"></span><br>
+                                <span id="shangpan_1"></span>&nbsp;
+                                <span id="xiapan_1"></span><br><br>
+                                <span id="lastInfo_2"></span><br>
+                                <span id="time_2"></span><br>
+                                <span id="shangpan_2"></span>&nbsp;
+                                <span id="xiapan_2"></span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="ps">
+                        {% for i in 0..11 %}
+                            <td>PS<br>
+                                <span id="numPankou"></span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/lottery.js') }}"></script>
+{% endblock %}
