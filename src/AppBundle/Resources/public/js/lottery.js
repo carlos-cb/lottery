@@ -102,8 +102,8 @@ $(document).ready(function() {
         var rule5Xiapan = [];
         for(var h=0; h<12; h++){
             var companyName = changeCompanyName(h);
-            var rule5ShangpanColors = "";
-            var rule5XiapanColors = "";
+            var rule5ShangpanColors = [];
+            var rule5XiapanColors = [];
             //填写最后一个盘口
             lastInfo[h] = company[h].eq(0).clone().children().remove().end().text();
             $(czLastInfo[k]).eq(h).html(lastInfo[h]);
@@ -246,6 +246,7 @@ $(document).ready(function() {
                 //规则4
                 var role4ChazhiShangpan = shangpan_2 - shangpan_1;
                 var role4ChazhiXiapan = xiapan_2 - xiapan_1;
+
                 if(role4ChazhiShangpan >= 0.49){
                     $(mlShangpan_1[k]).eq(h).css("color", "purple");
                     var ruleText_4s = teamName + "的比赛," + companyName + "公司的上盘符合规则4，数值为" + role4ChazhiShangpan;
@@ -364,7 +365,7 @@ $(document).ready(function() {
             var ruleText_2x = teamName + "的比赛，所有的" + rule2Companys + "个公司都符合规则2，下盘全为0";
             ruleTexts.push(ruleText_2x);
         }
-
+        
         //规则3 最终判断
         if(rule2Companys >= 7 && rule3Shangpan == 0 && rule3Xiapan == 0){
             var shangpanDa = true;
