@@ -1,0 +1,18 @@
+AppBundle\Entity\Matchid:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\MatchidRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        time:
+            type: datetime
+        matchIds:
+            type: simple_array
+        matchTimes:
+            type: simple_array
+    lifecycleCallbacks: {  }

@@ -9,14 +9,38 @@ homepage:
     path:     /
     defaults: { _controller: AppBundle:Default:index }
 
-data_page:
-    path:     /data
-    defaults: { _controller: AppBundle:Client:data }
+data_phantom:
+    path:     /data_phantom
+    defaults: { _controller: AppBundle:Client:dataPhantom }
 
-email_page:
-    path:     /email
-    defaults: { _controller: AppBundle:Client:email }
+data_curl_multi:
+    path:     /data_curl_multi
+    defaults: { _controller: AppBundle:Client:dataCurlMulti }
+
+test_phantom:
+    path:     /test_phantom
+    defaults: { _controller: AppBundle:Client:testPhantom }
+
+test_goutte:
+    path:     /test_goutte
+    defaults: { _controller: AppBundle:Default:testGoutte }
+
+test_guzzle:
+    path:     /test_guzzle
+    defaults: { _controller: AppBundle:Default:testGuzzle }
+
+test_curl_one:
+    path:     /test_curl_one
+    defaults: { _controller: AppBundle:Default:testCurlOne }
+
+test_curl_multi:
+    path:     /test_curl_multi
+    defaults: { _controller: AppBundle:Default:testCurlMulti }
 
 send_emails:
     path:     /send_emails
     defaults: { _controller: AppBundle:Client:sendEmails }
+
+get_match_ids:
+    path:     /get_match_ids
+    defaults: { _controller: AppBundle:Client:getMatchIds }

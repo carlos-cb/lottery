@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+    <meta http-equiv="refresh" content="300">
+{% endblock head %}
+
+{% block body %}
+    <div class="container">
+        <h2>{{ code|date('Y-m-d H:i:s') }}</h2>
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}, {{ times[loop.index0] }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <div class="normal">
+    </div>
+{% endblock %}
+

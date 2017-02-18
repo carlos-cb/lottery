@@ -6,32 +6,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JonnyW\PhantomJs\Client;
+use Goutte\Client as goutte;
 use Symfony\Component\DomCrawler\Crawler;
+use AppBundle\Entity\Matchid;
 
 class ClientController extends Controller
 {
-    public function dataAction()
+    public function dataPhantomAction()
     {
         set_time_limit(0);
         $contentMain = $this->getContentMain();
-
         $matchIds = $this->getMatchIds($contentMain);
         $startTimes = $this->getStartTimes($contentMain);
-
         $client = Client::getInstance();
         $client->isLazy();
         $url = $this->getParameter('js_path');
         $client->getEngine()->setPath($url);
         $response = $client->getMessageFactory()->createResponse();
-
-        $j = 0;
         $messages = array();
-        foreach ($matchIds as $matchId){
+        foreach ($matchIds as $j => $matchId){
             $request  = $client->getMessageFactory()->createRequest("http://vip.win007.com/AsianOdds_n.aspx?id=$matchId", 'GET');
             $client->send($request, $response);
             $messages[$j] = $response->getContent();
-            $j++;
-            if($j >= 3){
+            if($j > 5){
                 break;
             }
         }
@@ -43,10 +40,11 @@ class ClientController extends Controller
         ));
     }
 
-    private function getContentMain()
+    public function getContentMain()
     {
         $client = Client::getInstance();
         $client->isLazy();
+        $client->getEngine()->addOption('--load-images=false');
         $url = $this->getParameter('js_path');
         $client->getEngine()->setPath($url);
 
@@ -77,31 +75,28 @@ class ClientController extends Controller
         return $startTimes;
     }
 
-    public function emailAction()
+    public function testPhantomAction()
     {
         $client = Client::getInstance();
-        $client->isLazy();
+        $client->getEngine()->addOption('--load-images=false');
         $url = $this->getParameter('js_path');
         $client->getEngine()->setPath($url);
 
-        $request  = $client->getMessageFactory()->createRequest("http://vip.win007.com/AsianOdds_n.aspx?id=1250365", 'GET');
+        $matchIds = array(1357349, 1347556, 1346677, 1357216, 1356395, 1356396, 1354384);
         $response = $client->getMessageFactory()->createResponse();
-        $client->send($request, $response);
-        $messages[0] = $response->getContent();
-
-        $request  = $client->getMessageFactory()->createRequest("http://vip.win007.com/AsianOdds_n.aspx?id=1352341", 'GET');
-        $response = $client->getMessageFactory()->createResponse();
-        $client->send($request, $response);
-        $messages[1] = $response->getContent();
-
-        $matchIds = array(1250365, 1352341);
+        $messages = array();
+        foreach ($matchIds as $i => $matchId){
+            $request  = $client->getMessageFactory()->createRequest("http://vip.win007.com/AsianOdds_n.aspx?id=$matchId", 'GET');
+            $client->send($request, $response);
+            $messages[$i] = $response->getContent();
+        }
         
-        return $this->render('AppBundle:Default:email.html.twig', array(
+        return $this->render('AppBundle:Default:data.html.twig', array(
             'messages' => $messages,
             'matchIds' => $matchIds,
         ));
     }
-
+    
     public function sendEmailsAction(Request $request)
     {
         $arrayText = $request->get('val2');
@@ -114,5 +109,70 @@ class ClientController extends Controller
             ->setContentType('text/html')
             ->setBody($text);
         $this->get('mailer')->send($messageClient);
+
+        return new Response();
+    }
+
+    public function dataCurlMultiAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $matchIds = $em->getRepository('AppBundle:Matchid')->findOneById(1)->getMatchIds();
+
+        $mh = curl_multi_init();
+        $conn = array();
+        $messages = array();
+        foreach ($matchIds as $i => $matchId){
+            $conn[$i] = curl_init();
+            curl_setopt($conn[$i], CURLOPT_URL, "http://vip.win007.com/AsianOdds_n.aspx?id=$matchId");
+            curl_setopt($conn[$i], CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($conn[$i], CURLOPT_TIMEOUT, 9);
+            curl_multi_add_handle($mh,$conn[$i]);
+        }
+
+        do { curl_multi_exec($mh,$active); } while ($active);
+        /* do {
+             $mrc = curl_multi_exec($mh,$active);
+         } while($mrc == CURLM_CALL_MULTI_PERFORM);
+         while ($active and $mrc == CURLM_OK) {
+             if (curl_multi_select($mh) != -1) {
+                 do {
+                     $mrc = curl_multi_exec($mh, $active);
+                 } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+             }
+         }*/
+
+        foreach ($matchIds as $i => $matchId){
+            $messages[$i]= mb_convert_encoding(curl_multi_getcontent($conn[$i]), "utf-8", "gb2312");
+            curl_multi_remove_handle($mh, $conn[$i]);
+            curl_close($conn[$i]);
+        }
+        curl_multi_close($mh);
+
+        return $this->render('AppBundle:Default:data.html.twig', array(
+            'matchIds' => $matchIds,
+            'messages' => $messages,
+        ));
+    }
+
+    public function getMatchIdsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $newMatch = $em->getRepository('AppBundle:Matchid')->findOneById(1);
+        $contentMain = $this->getContentMain();
+        $matchIds = $this->getMatchIds($contentMain);
+        $startTimes = $this->getStartTimes($contentMain);
+
+        $newMatch->setTime(new \DateTime('now'))
+                 ->setMatchIds($matchIds)
+                 ->setMatchTimes($startTimes)
+        ;
+        $em->persist($newMatch);
+        $em->flush();
+
+        return $this->render('AppBundle:Default:test.html.twig', array(
+            'code' => $newMatch->getTime(),
+            'messages' => $newMatch->getMatchIds(),
+            'times' => $newMatch->getMatchTimes(),
+        ));
     }
 }

@@ -1,9 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="">
-        <a href="{{ path('data_page') }}" class="button button-3d button-primary button-rounded" id="buttonMain">查看实时数据表格</a>
+    <br><br><br><br><br><br>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Goutte</th>
+                <th>Phantom</th>
+                <th>Curl One</th>
+                <th>Curl Multi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">正式</th>
+                <td></td>
+                <td><a href="{{ path('data_phantom') }}" class="button button-3d button-primary button-rounded" target="_blank">Enter</a></td>
+                <td></td>
+                <td><a href="{{ path('data_curl_multi') }}" class="button button-3d button-primary button-rounded" target="_blank">Enter</a></td>
+            </tr>
+            <tr>
+                <th scope="row">测试</th>
+                <td><a href="{{ path('test_goutte') }}" class="button button-3d button-highlight button-rounded" target="_blank">Enter</a></td>
+                <td><a href="{{ path('test_phantom') }}" class="button button-3d button-highlight button-rounded" target="_blank">Enter</a></td>
+                <td><a href="{{ path('test_curl_one') }}" class="button button-3d button-highlight button-rounded" target="_blank">Enter</a></td>
+                <td><a href="{{ path('test_curl_multi') }}" class="button button-3d button-highlight button-rounded" target="_blank">Enter</a></td>
+            </tr>
+            <tr>
+                <th scope="row">服务器端</th>
+                <td></td>
+                <td><a href="{{ path('get_match_ids') }}" class="button button-3d button-caution button-rounded" target="_blank">Enter</a></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
         <br>
-        <a href="{{ path('email_page') }}" style="display: none" class="button button-3d button-primary button-rounded" id="buttonMain">邮件提醒页</a>
+        <br>
     </div>
 {% endblock %}

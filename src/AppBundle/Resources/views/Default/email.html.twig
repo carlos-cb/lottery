@@ -20,6 +20,7 @@
                     </caption>
                     <thead>
                     <tr>
+                        <th>参数</th>
                         <th>澳门</th>
                         <th>SB</th>
                         <th>10Bet</th>
@@ -36,9 +37,10 @@
                     </thead>
                     <tbody>
                     <tr id="cz">
+                        <td>CZ</td>
                         {% for i in 0..11 %}
-                             <td>CZ&nbsp;
-                                 <span id="times">0</span>次<br>
+                             <td>
+                                 <span id="times"></span><br>
                                  <span id="lastInfo"></span><br>
                                  <span id="time"></span><br>
                                  <span id="shangpan"></span>&nbsp;
@@ -47,8 +49,9 @@
                         {% endfor %}
                     </tr>
                     <tr id="ml">
+                        <td>ML</td>
                         {% for i in 0..11 %}
-                            <td>ML<br>
+                            <td>
                                 <span id="lastInfo_1"></span><br>
                                 <span id="time_1"></span><br>
                                 <span id="shangpan_1"></span>&nbsp;
@@ -61,8 +64,9 @@
                         {% endfor %}
                     </tr>
                     <tr id="ps">
+                        <td>PS</td>
                         {% for i in 0..11 %}
-                            <td>PS<br>
+                            <td>
                                 <span id="numPankou"></span>
                             </td>
                         {% endfor %}
