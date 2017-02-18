@@ -100,7 +100,6 @@ $(document).ready(function() {
         var rule3ShangJianXia =[];
         var rule5Shangpan = [];
         var rule5Xiapan = [];
-        var rule5Aocai = false;
         for(var h=0; h<12; h++){
             var companyName = changeCompanyName(h);
             var rule5ShangpanColors = "";
@@ -117,18 +116,16 @@ $(document).ready(function() {
                     arrayPankou.push(pankou);
                 }
             }
+
             if(arrayPankou.length >= 3){
                 $(psPankou[k]).eq(h).html(arrayPankou.length);
                 psNumMatch++;
-                if(h = 0){
-                    rule5Aocai =true;
-                }
             }
-
 
             //判断是否有最后一个盘口 CZ
             if(company[h].length>0){
                 rule2Companys++;
+
                 //填写最后一个盘口时间
                 time[h] = company[h].eq(0).parent().find('td:nth-child(14)').html().replace('<br>','&nbsp;');
                 $(czTime[k]).eq(h).html(time[h]);
@@ -399,7 +396,7 @@ $(document).ready(function() {
         }
 
         //规则5
-        if(rule5Aocai && (psNumMatch >= 3)){
+        if((company[0].length > 0) && (psNumMatch >= 3)){
             //上盘
             var role5ShangpanColorsSame = true;
             for(var r=1; r< rule5Shangpan.length; r++){

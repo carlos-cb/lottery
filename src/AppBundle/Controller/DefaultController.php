@@ -19,7 +19,7 @@ class DefaultController extends Controller
     {
         $client = new goutte();
         $text = array();
-        $matchIds = array(1357349, 1347556, 1346677, 1357216, 1356395, 1356396, 1354384);
+        $matchIds = array(1357216, 1347556, 1349166);
         foreach ($matchIds as $matchId){
             $crawler = $client->request('GET', "http://vip.win007.com/AsianOdds_n.aspx?id=$matchId");
             array_push($text, $crawler->html());
